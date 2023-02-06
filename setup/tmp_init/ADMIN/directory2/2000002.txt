@@ -1,0 +1,88 @@
+#include <iostream>
+using namespace std;
+
+void Start ();
+int AllInLine ();
+int n, nodes[1275], maxnodes=1275;
+int ipos[1275], jpos[1275];
+int  i, j, k;
+char c;
+void Start ()
+{
+   cin >> maxnodes;
+   for(n = 0; n<maxnodes; n++)
+            cin >> nodes[n];      
+     //Sort nodes from top to bottom
+     k=0;
+     do {
+         for(i=k=0; i < n-1; i++)
+            { 
+             if(nodes[i]>nodes[i+1])
+               {
+                j= nodes[i];
+                nodes[i] = nodes[i+1];
+                nodes[i+1] = j;
+                k = 1;                 
+               }                       
+            }          
+           }while (k);
+     
+     // Calculate two dimensional indexes of nodes ipos, jpos
+     for(j = 1, i = 0; i < n; j++)
+        {
+         k = j*(j+1)/2;
+         while(k >= nodes[i] && i < n)
+              {
+               ipos[i] = j;
+               jpos[i] = nodes[i]-j*(j-1)/2;  
+               i++; 
+              }     
+        }
+  }
+int AllInLine ()
+{
+    int i, j, k;
+    // ON ROW ... i == i
+    for(i=0, k=1;i<n-1;i++)
+        if(ipos[i] != ipos[i+1]){k=0; break;}
+        
+    if(k == 0)
+      { // ON COLUMN   ... j == j
+       for(i=0, k=2;i<n-1;i++)
+          if(jpos[i] != jpos[i+1]){k=0; break;}
+       if(k == 0)
+         {// ON Opposite diagonal ... (i-j) == Const
+          for(i=0, k=3;i<n-1;i++)
+              if(ipos[i]-jpos[i] !=ipos[i+1]-jpos[i+1]){k=0; break;}
+         }
+      }
+    return(k);  
+}
+
+int main ()
+{    int t;int q,l,r,st;
+     Start();
+     t= AllInLine();
+     switch (t){
+      case 0: {cout <<"No\n"; break;}
+      case 1: {cout <<"Yes\n"; 
+                q=nodes[0];  r=jpos[0];
+                q=q-r+1;
+                cout<<q<<endl;break;}   
+      case 2: {cout <<"Yes\n"; 
+                q=nodes[0]; l=ipos[0]; r=jpos[0];
+                while (l>r){ st=l-1;
+                   q-=st;
+                   l--;
+                   }
+                cout<<q<<endl;break;} 
+       case 3: {cout <<"Yes\n"; 
+                q=nodes[0]; st=ipos[0]; r=jpos[0];
+                while (r>1){ q-=st; 
+                      r--;
+                      st--;
+                     }
+                cout<<q<<endl;break;}          
+      }    
+      return 0;
+}

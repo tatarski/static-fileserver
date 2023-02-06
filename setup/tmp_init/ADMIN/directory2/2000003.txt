@@ -1,0 +1,23 @@
+#include<iostream>
+#include <cstdio>
+
+using namespace std;
+int  i,j, n, M, x[1000000], y[1000000];  
+
+int main()
+{
+    scanf("%d",&n);
+    for (i=0; i<n; i++) scanf("%d",&x[i]);
+    for (i=0; i<n; i++) scanf("%d",&y[i]);
+
+    i=0; j=0; M=0;
+    while (i<n && j<n) {
+      if (y[j] >= x[i]) {
+        if ( (j-i)>M )  M=j-i;
+        j=j+1;
+      }
+      else i=i+1;
+    }
+    printf("%d\n",M);
+    return 0;
+}
