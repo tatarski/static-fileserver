@@ -23,8 +23,14 @@
     echo "<a href=\"" . Config::SITE_URL . "/controllers/download.php?path=./" .
         str_replace("\\", "/", $_REQUEST["path"])
         ."\"> <button>Свали </button></a>";
-
+    
     $file_path = Config::ROOT_FOLDER . "\\tmp\\" . $_SESSION["user_data"]["username"] . "\\" . $_REQUEST["path"];
+
+    $ext = pathinfo($_REQUEST["path"], PATHINFO_EXTENSION);
+    $delete_url = Config::SITE_URL . "/controllers/delete.php?path=" .
+            (strlen($_REQUEST["path"]) > 0?pathinfo($_REQUEST["path"], PATHINFO_DIRNAME):"") ."&name=\\" . pathinfo($_REQUEST["path"], PATHINFO_FILENAME) . (strlen($ext) > 0?".$ext":"");
+    // Delete button
+    echo "<a href=\"$delete_url\"> <button>Изтрий</button></a>";
 
 
     if($file_type=="png" || $file_type=="jpg" || $file_type=="jpeg") {

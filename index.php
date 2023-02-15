@@ -37,6 +37,12 @@ if (array_key_exists("user_data", $_SESSION)) {
             include "./views/upload_view.php";
         } elseif ($_REQUEST["route"] == "mkdir") {
             include "./views/mkdir_view.php";
+        } elseif ($_REQUEST["route"] == "list_templates") {
+            include "./views/templates_list.php";
+        } elseif ($_REQUEST["route"] == "view_template") {
+            include "./views/templates_view.php";
+        } elseif ($_REQUEST["route"] == "create_template") {
+            include "./views/create_template_view.php";
         }
     }
 } else {

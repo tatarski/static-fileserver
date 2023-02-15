@@ -7,30 +7,10 @@ require_once(__DIR__ . "\\.\\..\\models\\UserModel.php");
 if(session_status() == PHP_SESSION_NONE) {
     session_start();
 }
-function file_not_exists($filename) {
-    // return !file_exists(Config::ROOT_FOLDER."\\tmp\\.".$_SESSION["user_data"]["username"]."\\".$file["name"]);
-    return !file_exists(CONFIG::ROOT_FOLDER . "\\tmp\\" . $_SESSION["user_data"]["username"] . "\\" .
-        str_replace("/", "\\", (isset($_REQUEST["path"]) ? $_REQUEST["path"] : "")) . "\\" .
-        $filename);
-}
+
 
 // Validation list for login form validation
-$validation_list = array(
-    "dirname" => [
-        array(
-            "error_message" => "Името вече е заето.",
-            "validate" => bind_partial_last('file_not_exists')
-        ),
-        array(
-            "error_message" => "Името на директорията трябва да съдържа между 6 и 30 символа.",
-            "validate" => bind_partial_last('is_str_len_in_range', 6, 30)
-        ),
-        array(
-            "error_message" => "Името на директорията трябва да съдържа само малки латински букви и цифри.",
-            "validate" => bind_partial_last('test_regex', "/^[a-zA-Z0-9]+$/")
-        ),
-    ]
-);
+$validation_list = $ValidationConfig["mkdir_validation_list"];
 // Validation
 $validation_res = validate_list($validation_list, $_POST);
 

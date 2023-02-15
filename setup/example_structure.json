@@ -1,0 +1,16 @@
+{
+	"regex": "(root|basedir)",
+	"children": [
+        {
+            "regex": "subdir[0-9]",
+            "children": [
+                {
+                    "regex": "files[0-9]\\.(png|jpeg)"
+                }
+            ]
+        },
+        {
+            "regex": "README.txt"
+        }
+	]
+}

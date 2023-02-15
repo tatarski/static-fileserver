@@ -1,4 +1,5 @@
 <?php
+require_once(__DIR__ . "\\validation_config.php");
 class Config
 {
     public const SITE_FN = 81818;

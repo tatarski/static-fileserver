@@ -23,16 +23,30 @@ function append_form_html($fields_data, $prev_values, $errors)
         $prev_values = unserialize($_REQUEST["prev_values"]);
     }
     foreach ($fields_data as $field => $params) {
-        echo "<div>" .
-            "<label for=\"$field\">" . $params["label"] . "</label>" .
-            "<input 
+        $input_field = "<input 
                     type=" . $params["type"] . " 
                     id=\"$field\" 
                     name=\"$field\" 
                     placeholder=\"" . $params["label"] . "\"" .
             "value = \"" . (array_key_exists($field, $prev_values) ? $prev_values[$field] : "") . "\"" .
             ($params["required"] ? " required" : "") .
-            ">" .
+            ">";
+
+        if($params["type"] == "textarea") {
+            $input_field = "<textarea
+                    type=" . $params["type"] . " 
+                    id=\"$field\" 
+                    name=\"$field\" 
+                    placeholder=\"" . $params["label"] . "\"".
+                    ($params["required"] ? " required" : "").
+                    ">" .
+            (array_key_exists($field, $prev_values) ? $prev_values[$field] : "") . 
+            "</textarea>";
+   
+        }
+        echo "<div>" .
+            "<label for=\"$field\">" . $params["label"] . "</label>" .
+            $input_field.
             construct_errors_html($field, $errors) .
             "</div>";
     }

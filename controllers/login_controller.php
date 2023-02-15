@@ -21,25 +21,15 @@ function password_matches_username($password, $username) {
     return password_verify($password, $usr["hashed_password"]);
 }
 // Validation list for login form validation
-$validation_list = array(
-    "username" => [
-        array(
-            "error_message" => "Потребителят не съществува.",
-            "validate" => bind_partial_last('user_exists')
-        ),
-    ],
-    "password" => [
-        array(
-            "error_message" => "Неправилна парола.",
-            "validate" => bind_partial_last('password_matches_username', $_POST["username"])
-        ),
-    ]
-);
+$validation_list = $ValidationConfig["login_validation_list"];
 // Validation
 $validation_res = validate_list($validation_list, $_POST);
 
-if($validation_res["has_error"]) {
+if($validation_res["has_error"] || !password_matches_username($_POST["password"], $_POST["username"])) {
     // Errors when trying to login
+    if(!password_matches_username($_POST["password"], $_POST["username"])) {
+        array_push($validation_res["errors"]["password"], "Потребителят не съществува или паролата е неправилна.");
+    }
     header(
             "Location: ".Config::SITE_URL."?route=login&errors=" . 
                 urlencode(serialize($validation_res["errors"])) .

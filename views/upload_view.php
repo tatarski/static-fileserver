@@ -24,9 +24,10 @@
     $fields_data = array(
         "filename" => array("label" => "Изберете име на файла:", "type" => "text", "required" => False),
         "fileToUpload" => array("label" => "Изберете файл за качване:", "type" => "file", "required" => True ),
+        "extractArchive" => array("label" => "Автоматично разарахивиране (за .zip архиви):", "type" => "checkbox", "required" => False),
     );
     // Create form
     append_form_html($fields_data, $prev_values, $errors);
     ?>
-    <button type="submit">Upload File</button>
+    <button type="submit">Качи файла!</button>
 </form>

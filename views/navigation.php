@@ -21,6 +21,12 @@
         ?>">
         <button>Създай Директория</button>
     </a>
+    <a href="<?php
+    require_once(__DIR__ . "\\..\\config.php");
+    echo Config::SITE_URL . "?route=list_templates"
+        ?>">
+        <button>Шаблони</button>
+    </a>
     <div id="name_display"><h2>
         <?php
         echo $_SESSION["user_full_data"]["full_name"]."\tИме";

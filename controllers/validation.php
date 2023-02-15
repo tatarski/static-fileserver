@@ -41,4 +41,35 @@ function validate_list($validation_list, $post_values) {
     }
     return array("errors" => $errors, "has_error" => $has_err);
 }
+
+// File validation functions
+function file_size_constraint($file, $max_size_bytes) {
+    return $file["size"] < $max_size_bytes;
+}
+
+function file_not_exists($file) {
+    // return !file_exists(Config::ROOT_FOLDER."\\tmp\\.".$_SESSION["user_data"]["username"]."\\".$file["name"]);
+    return !file_exists(CONFIG::ROOT_FOLDER . "\\tmp\\" . $_SESSION["user_data"]["username"] . "\\" .
+        str_replace("/", "\\", (isset($_REQUEST["path"]) ? $_REQUEST["path"] : "")) . "\\" .
+        (strlen($_POST["filename"]) > 0 ? $_POST["filename"] : $_FILES["fileToUpload"]["tmp_name"]));
+}
+
+function file_not_exists_dir($filename) {
+    // return !file_exists(Config::ROOT_FOLDER."\\tmp\\.".$_SESSION["user_data"]["username"]."\\".$file["name"]);
+    return !file_exists(CONFIG::ROOT_FOLDER . "\\tmp\\" . $_SESSION["user_data"]["username"] . "\\" .
+        str_replace("/", "\\", (isset($_REQUEST["path"]) ? $_REQUEST["path"] : "")) . "\\" .
+        $filename);
+}
+
+    // User validation functions
+function check_username_free($username) {
+    return count(UserModel::select(array("username" => $username))) == 0;
+}
+function check_email_free($email) {
+    return count(UserModel::select(array("email" => $email))) == 0;
+}
+function passwords_match($password, $password_repeat) {
+    return $password == $password_repeat;
+}
+
 ?>
